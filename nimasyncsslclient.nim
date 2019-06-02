@@ -28,5 +28,4 @@ proc main() {.async.} =
     echo "[-] could not connect to server: ", host, port
   await client.handle()
 
-
 waitFor main()

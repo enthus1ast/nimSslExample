@@ -43,15 +43,12 @@ proc main() {.async.} =
   server.bindAddr(Port port)
   server.listen()
   var ctx = newContext(certFile = publicKey, keyFile = secretKey)
-
   wrapSocket(ctx, server)
   echo "listening on port ", port
   while true:
     var (address, client) = await server.acceptAddr()
     echo "connection from: ", address
     wrapConnectedSocket(ctx, client, handshakeAsServer)
-    # echo getPskIdentity(client.getFd)
     asyncCheck client.handle
-
 
 waitFor main()
