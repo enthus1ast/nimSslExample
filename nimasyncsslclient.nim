@@ -25,7 +25,8 @@ proc main() {.async.} =
   try:
     await client.connect(host, Port port)
   except:
-    echo "[-] could not connect to server: ", host, port
+    echo "[-] could not connect to server: ", host , ":", port
+    quit()
   await client.handle()
 
 waitFor main()
