@@ -19,7 +19,7 @@ proc main() {.async.} =
     echo "[-] could not find server's public key at: ", serverPublicKey
     quit()
   client = newAsyncSocket()  
-  var ctx = newContext()
+  var ctx = newContext(verifyMode = CVerifyPeer)
   discard SSL_CTX_load_verify_locations(ctx.context, "publicKey.pem", "") # we gonna trust our self signed certificat
   wrapSocket(ctx, client) # enables SSL for this socket.
   try:

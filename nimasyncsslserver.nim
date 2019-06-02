@@ -7,25 +7,23 @@ let secretKey = "secretKey.pem"
 
 proc handle(client: AsyncSocket) {.async.} =
   while true:
-    var line: string = ""
+    var line: string = ""    
     try:
       line = await client.recvLine()
-      if line == "": 
-        echo "client disconnected"
-        if not client.isClosed:
-          client.close()
-        break
     except:
       echo "socket breaks in read:", getCurrentExceptionMsg()
       break
-    
+    if line == "": 
+      echo "client disconnected"
+      if not client.isClosed:
+        client.close()
+      break
     try:
       await client.send("GOT: " & line & "\n")
     except:
       echo "socket breaks in send:", getCurrentExceptionMsg()
       break
     
-
 proc createKeyFiles() = 
   ## creates neccessary certificates for ssl socket.
   echo "[+] going to create ssl certificates"
